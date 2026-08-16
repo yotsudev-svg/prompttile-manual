@@ -134,7 +134,10 @@
     .steps li { position: relative; min-height: 2.1rem; padding: 0.55rem 0 0.55rem 3rem; }
     .steps li::before { position: absolute; top: 0.55rem; left: 0; display: grid; width: 2rem; height: 2rem; place-items: center; color: #fff; background: var(--brand); border-radius: 50%; font-weight: 800; counter-increment: steps; content: counter(steps); }
 
+    .references { font-size: 0.88rem; color: var(--muted); }
+    .references li { overflow-wrap: anywhere; }
     .footer { width: min(1160px, calc(100% - 40px)); margin: 0 auto 3rem; color: var(--muted); font-size: 0.85rem; text-align: center; }
+    sup a { padding: 0 0.1em; text-decoration: none; font-weight: 700; }
 
     @media (max-width: 940px) {
       .page-layout { display: block; }
@@ -168,16 +171,13 @@
         <p class="intro-quote">PromptTile は、日本語で単語を選びながら、画像生成AIへ渡す英語プロンプトを組み立てるためのWebアプリです。</p>
 
         <!--
-          スクリーンショットを追加する方法：
-          1. images フォルダに画像を配置します。
-          2. 下記の .screenshot-placeholder 要素を、次のような img タグに置き換えます。
-          <img src="images/01-main-screen.png" alt="PromptTileの基本画面" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;">
+          取得済みの実画面素材は images フォルダに配置してあります。
+          未取得の操作画面は .screenshot-placeholder を残しているため、
+          後から同じ書式の img タグへ置き換えて追加できます。
         -->
         <figure class="screenshot-slot">
-          <div class="screenshot-placeholder">
-            <div><strong>スクリーンショット挿入位置：PromptTileの基本画面</strong><code>images/01-main-screen.png</code></div>
-          </div>
-          <figcaption>基本画面全体が分かるスクリーンショットを配置してください。</figcaption>
+          <img src="images/01-main-screen.png" alt="PromptTileの基本画面" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;">
+          <figcaption>PromptTileの紹介用にLPへ掲載されている、実際のアプリ基本画面です。</figcaption>
         </figure>
 
         <section id="about">
@@ -216,7 +216,7 @@
               </tbody>
             </table>
           </div>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：PC版の3ペイン構成</strong><code>images/02-desktop-layout.png</code></div></div><figcaption>左のカテゴリ、中央のワークスペース、右のライブラリが分かる画面を配置してください。</figcaption></figure>
+          <figure class="screenshot-slot"><img src="images/02-desktop-layout.png" alt="PromptTileのPC版3ペイン構成" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;"><figcaption>公開アプリのPC版。左のカテゴリ、中央のワークスペース、右のライブラリを同時に確認できます。</figcaption></figure>
 
           <h3>2.2 ポジティブとネガティブを切り替える</h3>
           <p>ワークスペース上部の <strong>「ポジティブ」</strong> と <strong>「ネガティブ」</strong> を切り替えて編集します。ポジティブには「描きたいもの」、ネガティブには「避けたいもの」を入れます。両者は別々に保存・編集されるため、ポジティブを組み立てた後にネガティブへ切り替えても内容は残ります。</p>
@@ -231,7 +231,7 @@
             <li>タイルはワークスペースへ追加され、プレビューに英語プロンプトが反映されます。</li>
             <li>同じ単語をもう一度選ぶと、その単語は選択解除されます。すでに同じ英単語がある場合は、重複追加を防ぐ動作になります。</li>
           </ol>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：カテゴリから単語を選ぶ</strong><code>images/03-category-selection.png</code></div></div><figcaption>カテゴリを選択し、単語グリッドからタイルを追加する流れが分かる画面を配置してください。</figcaption></figure>
+          <figure class="screenshot-slot"><img src="images/03-category-selection.png" alt="カテゴリから単語を選んだPromptTile画面" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;"><figcaption>カテゴリ「体型・シルエット」を開き、単語タイルを選択した実画面です。</figcaption></figure>
 
           <h3>2.4 日本語で単語を検索する</h3>
           <p>中央の検索欄 <strong>「単語を検索…」</strong> に、知りたい意味を日本語で入力します。検索は英語プロンプトと日本語ラベルの両方を対象に行われます。そのため、英語タグを知らない場合でも、たとえば「映画」「光」「青」「笑顔」のような日本語から候補を探せます。</p>
@@ -240,7 +240,7 @@
           <h3>2.5 タイルを並び替える・削除する</h3>
           <p>ワークスペースに入れたタイルは、<strong>長押ししてドラッグ</strong>することで順番を変更できます。最終プロンプトはワークスペースの順序で出力されるため、関連する要素をまとめたい場合や、読みやすく整理したい場合に便利です。</p>
           <p>削除は、ツールバーの削除モードをオンにしてタイル内の <strong>×</strong> を選ぶ方法が基本です。各タイルを開く編集画面から <strong>「削除」</strong> を選ぶこともできます。PCでは、ワークスペース上の通常タイルを右クリックして削除する操作にも対応しています。</p>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：並び替えと削除</strong><code>images/04-reorder-delete.png</code></div></div><figcaption>ドラッグによる並び替えと、削除モードの×ボタンが分かる画面を配置してください。</figcaption></figure>
+          <figure class="screenshot-slot"><img src="images/04-workspace-tile.png" alt="追加済みタイルとワークスペース操作バー" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;"><figcaption>追加済みタイル、完成プロンプトのプレビュー、並び替え・削除などの操作バーを確認できます。</figcaption></figure>
 
           <h3>2.6 プロンプトを確認してコピーする</h3>
           <p>選択済みタイルの下には、完成した英語プロンプトを表示するプレビューがあります。タイルは通常、カンマと半角スペースでつながれます。PCではプレビュー右側のコピーアイコン、モバイルではツールバーの <strong>「コピー」</strong> を使うと、現在のポジティブまたはネガティブのプロンプトをクリップボードへコピーできます。</p>
@@ -254,14 +254,14 @@
           <p><strong>重み（Weight）</strong> は、特定の単語をどの程度強く扱うかを明示するための数値です。ワークスペース上の通常タイルをクリックまたはタップすると、タイルの調整画面が開きます。ここにある <strong>「強調度（Weight）」</strong> のスライダー、または増減ボタンで、<code>0.50</code> から <code>1.50</code> まで <code>0.05</code> 刻みで調整できます。</p>
           <div class="table-wrap"><table><thead><tr><th>重み</th><th>目的</th><th>出力例</th></tr></thead><tbody><tr><td><code>1.0</code></td><td>通常の強さです。PromptTileでは重み記法を付けずに出力します。</td><td><code>masterpiece</code></td></tr><tr><td><code>1.2</code></td><td>少し強めたいときに使います。</td><td><code>(masterpiece:1.2)</code></td></tr><tr><td><code>1.3</code>以上</td><td>かなり強く指定したいときに使います。まずは少しずつ上げてください。</td><td><code>(cinematic lighting:1.3)</code></td></tr><tr><td><code>0.8</code></td><td>出現を弱めたいときに使います。</td><td><code>(smile:0.8)</code></td></tr></tbody></table></div>
           <p>たとえば、品質を少し強くしたい場合は <code>masterpiece</code> のタイルを開いて <code>1.20</code> にします。プレビューは <strong><code>(masterpiece:1.2)</code></strong> になります。数値を <code>1.0</code> に戻すと、括弧と数値は自動的に外れ、通常の <code>masterpiece</code> に戻ります。</p>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：重み調整</strong><code>images/05-weight-adjustment.png</code></div></div><figcaption>強調度スライダーと、出力例が分かるタイル調整画面を配置してください。</figcaption></figure>
+          <figure class="screenshot-slot"><img src="images/05-weight-adjustment.png" alt="PromptTileの重み調整ダイアログ" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;"><figcaption>タイル調整ダイアログでは、現在の重み、スライダー、増減ボタンを確認できます。</figcaption></figure>
           <aside class="tip"><span class="callout-title">使い方の目安</span>最初から多くのタイルを強くしすぎると、どの指定を優先させたいのか分かりにくくなります。まずは重要な要素を1～2個だけ <code>1.1</code>～<code>1.2</code> にして、生成結果を比較する方法がおすすめです。</aside>
 
           <h3>3.2 トッピング機能：単語に装飾を加える</h3>
           <p><strong>トッピング</strong> は、対象の単語に紐づいた品質・スタイル・色などの修飾候補を、日本語で選んで追加する機能です。トッピングに対応した単語タイルには、本文部分とは別に設定アイコンが表示されます。本文を選ぶと単語をそのまま追加し、<strong>設定アイコン</strong>を選ぶとトッピング選択画面を開けます。</p>
           <p>トッピングの候補は、すべての単語で共通ではありません。単語やカテゴリに設定されている修飾グループだけが表示されます。たとえば色を受け取るテンプレート型の単語では、選んだ色が <code>{colorA}</code> や <code>{colorB}</code> の位置に埋め込まれ、選択内容を含む英語プロンプトが出力されます。前に置く修飾と後ろに付ける修飾も、設定された順序で自動的に組み立てられます。</p>
           <div class="table-wrap"><table><thead><tr><th>操作</th><th>結果</th></tr></thead><tbody><tr><td>タイル本文を選ぶ</td><td>装飾なしの単語をワークスペースへ追加します。</td></tr><tr><td>設定アイコンを選ぶ</td><td>その単語で利用できるトッピングを日本語で選択できます。</td></tr><tr><td>ワークスペース上のタイルを開く</td><td>重みとトッピングを後から調整できます。</td></tr><tr><td>各トッピングの「なし」を選ぶ</td><td>そのグループの装飾を解除できます。</td></tr></tbody></table></div>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：トッピング選択</strong><code>images/06-topping-selection.png</code></div></div><figcaption>単語タイルの設定アイコンと、日本語で選ぶトッピング候補を配置してください。</figcaption></figure>
+          <figure class="screenshot-slot"><img src="images/06-topping-entry.png" alt="トッピング対応単語の設定アイコン" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;"><figcaption>髪色カテゴリでは、トッピング対応単語に設定アイコンが表示されます。アイコンを選ぶとトッピング選択を開始できます。</figcaption></figure>
 
           <h3>3.3 BREAK構文：プロンプトを区切る</h3>
           <p><strong>BREAK</strong> は、プロンプトの途中に区切りを置く特殊構文です。PromptTileでターゲット画像生成AIを <strong>「PixAI（BREAK対応）」</strong> にしている場合、ツールバーに <strong>「+ BREAK」</strong> が表示されます。追加したBREAKは通常のタイルと同じようにドラッグで移動でき、最終文字列では前後を半角スペースで区切って出力されます。</p>
@@ -323,6 +323,7 @@
           <h2>7. 困ったとき</h2>
           <div class="table-wrap"><table><thead><tr><th>状況</th><th>確認すること</th></tr></thead><tbody><tr><td>日本語で検索しても見つからない</td><td>短い言葉にして再検索してください。現在の辞書が「標準辞書」か「ユーザー辞書」かも設定で確認します。</td></tr><tr><td>単語を追加したのに見当たらない</td><td>ポジティブ／ネガティブのどちらを編集中か確認してください。同じ単語は重複追加されません。</td></tr><tr><td>トッピングの設定アイコンがない</td><td>その単語にはトッピンググループが割り当てられていない可能性があります。本文を選んで通常追加してください。</td></tr><tr><td>BREAKボタンが表示されない</td><td>設定の「ターゲット画像生成AI」が「標準（特殊構文なし）」になっていないか確認し、PixAI（BREAK対応）を選びます。</td></tr><tr><td>コピーできない</td><td>ワークスペースに少なくとも1つ単語を追加してからコピーしてください。ブラウザのクリップボード権限も確認します。</td></tr><tr><td>成人向けの候補が表示されない</td><td>設定でNSFW表示を有効にし、メイン画面で成人向け表示へ切り替えてください。</td></tr></tbody></table></div>
         </section>
+
       </article>
     </main>
 
