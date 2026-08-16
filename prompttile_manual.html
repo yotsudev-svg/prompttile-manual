@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PromptTileの公式ドキュメント・利用マニュアル。日本語で単語を選び、画像生成AI向けの英語プロンプトを組み立てる方法を解説します。">
+  <title>PromptTile 公式ドキュメント・利用マニュアル</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #5d6b80;
+      --line: #dce3ed;
+      --bg: #f5f7fb;
+      --paper: #ffffff;
+      --brand: #4f46e5;
+      --brand-deep: #3730a3;
+      --brand-pale: #eef2ff;
+      --warning-bg: #fff8e8;
+      --warning-line: #f4c766;
+      --danger: #b42318;
+      --code-bg: #1f2937;
+      --shadow: 0 12px 32px rgb(31 41 55 / 8%);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+      font-size: 16px;
+      line-height: 1.85;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--brand); text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+    a:hover { color: var(--brand-deep); }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    code {
+      padding: 0.12em 0.38em;
+      color: #4038a6;
+      background: var(--brand-pale);
+      border-radius: 5px;
+      font-size: 0.92em;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      margin: 1rem 0 1.3rem;
+      padding: 1rem 1.15rem;
+      overflow-x: auto;
+      color: #e7edf7;
+      background: var(--code-bg);
+      border-radius: 12px;
+      line-height: 1.65;
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%);
+    }
+    pre code { padding: 0; color: inherit; background: transparent; }
+
+    .site-header {
+      color: #fff;
+      background: linear-gradient(122deg, #312e81 0%, #4f46e5 48%, #2563eb 100%);
+      border-bottom: 1px solid rgb(255 255 255 / 15%);
+    }
+    .header-inner {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 3.8rem 0 3.2rem;
+    }
+    .eyebrow {
+      margin: 0 0 0.85rem;
+      color: #c7d2fe;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { line-height: 1.38; }
+    h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 5vw, 3.35rem); letter-spacing: -0.035em; }
+    .lead { max-width: 790px; margin: 1.2rem 0 0; color: #e0e7ff; font-size: clamp(1rem, 2.2vw, 1.18rem); }
+    .header-meta { margin: 1.25rem 0 0; color: #c7d2fe; font-size: 0.88rem; }
+
+    .page-layout { width: min(1160px, calc(100% - 40px)); margin: 2rem auto 4rem; display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 2rem; align-items: start; }
+    main { min-width: 0; }
+    article { padding: clamp(1.4rem, 4vw, 3rem); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .toc { position: sticky; top: 1.25rem; padding: 1.2rem; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+    .toc h2 { margin: 0 0 0.7rem; font-size: 1rem; }
+    .toc ol { margin: 0; padding-left: 1.25rem; font-size: 0.91rem; line-height: 1.65; }
+    .toc li + li { margin-top: 0.35rem; }
+    .toc a { text-decoration: none; }
+
+    h2 { margin: 3.5rem 0 1.1rem; padding-bottom: 0.5rem; color: #172554; border-bottom: 2px solid #c7d2fe; font-size: clamp(1.5rem, 3vw, 2rem); }
+    h2:first-child { margin-top: 0; }
+    h3 { margin: 2.2rem 0 0.8rem; color: #312e81; font-size: clamp(1.14rem, 2.2vw, 1.38rem); }
+    p { margin: 0.85rem 0; }
+    ol, ul { margin: 0.8rem 0 1.1rem; padding-left: 1.5rem; }
+    li + li { margin-top: 0.35rem; }
+    strong { color: #111827; }
+
+    .intro-quote, .note, .tip, .caution {
+      margin: 1.35rem 0;
+      padding: 1rem 1.15rem;
+      border-radius: 10px;
+    }
+    .intro-quote { color: #312e81; background: var(--brand-pale); border-left: 5px solid var(--brand); font-weight: 600; }
+    .note { background: #f8fafc; border: 1px solid var(--line); }
+    .tip { background: #effdf6; border-left: 5px solid #16a34a; }
+    .caution { background: var(--warning-bg); border-left: 5px solid var(--warning-line); }
+    .callout-title { display: block; margin-bottom: 0.2rem; font-weight: 800; }
+
+    .table-wrap { width: 100%; margin: 1.2rem 0 1.45rem; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+    th, td { padding: 0.8rem 0.9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { color: #312e81; background: #f6f7ff; font-weight: 750; white-space: nowrap; }
+    tr:last-child td { border-bottom: 0; }
+
+    .screenshot-slot { margin: 1.55rem 0 1.9rem; }
+    .screenshot-placeholder {
+      display: grid;
+      min-height: 180px;
+      place-items: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      text-align: center;
+      background: repeating-linear-gradient(-45deg, #f8fafc 0, #f8fafc 14px, #f0f4f8 14px, #f0f4f8 28px);
+      border: 2px dashed #b6c2d1;
+      border-radius: 12px;
+    }
+    .screenshot-placeholder strong { display: block; color: #44546a; }
+    .screenshot-placeholder code { display: inline-block; margin-top: 0.45rem; }
+    figcaption { margin-top: 0.55rem; color: var(--muted); font-size: 0.86rem; }
+
+    .steps { counter-reset: steps; list-style: none; padding: 0; }
+    .steps li { position: relative; min-height: 2.1rem; padding: 0.55rem 0 0.55rem 3rem; }
+    .steps li::before { position: absolute; top: 0.55rem; left: 0; display: grid; width: 2rem; height: 2rem; place-items: center; color: #fff; background: var(--brand); border-radius: 50%; font-weight: 800; counter-increment: steps; content: counter(steps); }
+
+    .references { font-size: 0.88rem; color: var(--muted); }
+    .references li { overflow-wrap: anywhere; }
+    .footer { width: min(1160px, calc(100% - 40px)); margin: 0 auto 3rem; color: var(--muted); font-size: 0.85rem; text-align: center; }
+    sup a { padding: 0 0.1em; text-decoration: none; font-weight: 700; }
+
+    @media (max-width: 940px) {
+      .page-layout { display: block; }
+      .toc { position: static; margin-bottom: 1.25rem; }
+      .toc ol { columns: 2; column-gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .header-inner, .page-layout, .footer { width: min(100% - 28px, 1160px); }
+      .header-inner { padding: 2.7rem 0 2.4rem; }
+      article { padding: 1.2rem; border-radius: 12px; }
+      .toc ol { columns: 1; }
+      th, td { padding: 0.68rem; }
+      .screenshot-placeholder { min-height: 145px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">Official Documentation</p>
+      <h1>PromptTile 公式ドキュメント・利用マニュアル</h1>
+      <p class="lead">日本語で単語を選びながら、画像生成AI向けの英語プロンプトを直感的に組み立てるためのガイドです。</p>
+      <p class="header-meta">対象：画像生成AIの初心者〜中級者 ／ PixAIを中心に利用する方</p>
+    </div>
+  </header>
+
+  <div class="page-layout">
+    <main>
+      <article>
+        <p class="intro-quote">PromptTile は、日本語で単語を選びながら、画像生成AIへ渡す英語プロンプトを組み立てるためのWebアプリです。<sup><a href="#ref-1">[1]</a></sup></p>
+
+        <!--
+          スクリーンショットを追加する方法：
+          1. images フォルダに画像を配置します。
+          2. 下記の .screenshot-placeholder 要素を、次のような img タグに置き換えます。
+          <img src="images/01-main-screen.png" alt="PromptTileの基本画面" loading="lazy" style="width:100%; border:1px solid #dce3ed; border-radius:12px;">
+        -->
+        <figure class="screenshot-slot">
+          <div class="screenshot-placeholder">
+            <div><strong>スクリーンショット挿入位置：PromptTileの基本画面</strong><code>images/01-main-screen.png</code></div>
+          </div>
+          <figcaption>基本画面全体が分かるスクリーンショットを配置してください。</figcaption>
+        </figure>
+
+        <section id="about">
+          <h2>1. PromptTileとは？</h2>
+          <p>PromptTileは、英語タグを一語ずつ暗記しなくても、<strong>日本語で意味を確認しながらプロンプトを組み立てられる</strong>アプリです。単語タイルには英語のプロンプトと日本語ラベルが表示されるため、「何を指定しているのか」を理解しながら選択できます。選んだ順番はワークスペースに並び、最終的な英語プロンプトは自動でカンマ区切りのテキストとしてプレビューされます。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-2">[2]</a></sup></p>
+          <p>画像生成AIでは、一般に <code>1girl</code>、<code>cinematic lighting</code>、<code>masterpiece</code> のような英単語やフレーズを組み合わせて、人物・構図・雰囲気・品質などを指定します。PromptTileでは、これらを日本語のカテゴリや検索から選び、必要に応じて並び替え・強調・装飾してからコピーできます。</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>できること</th><th>概要</th></tr></thead>
+              <tbody>
+                <tr><td>日本語ベースの単語選択</td><td>カテゴリや日本語ラベルを手掛かりに、英語プロンプトを追加します。</td></tr>
+                <tr><td>ポジティブ／ネガティブの分離</td><td>描きたい要素と、避けたい要素を別々に構築できます。</td></tr>
+                <tr><td>プロンプトの自動整形</td><td>選んだタイルを、画像生成AIに貼り付けやすい文字列へ整形します。</td></tr>
+                <tr><td>重み・トッピング</td><td>特定の要素を強めたり、色・品質・スタイルなどの修飾を付けたりできます。</td></tr>
+                <tr><td>保存・復元</td><td>作成途中のプロンプト、保存済みセット、コピー履歴を再利用できます。</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <aside class="tip"><span class="callout-title">はじめて使う方へ</span>まずは「日本語で探す → タイルを選ぶ → コピーする」の3ステップだけで十分です。重みや特殊構文は、慣れてから少しずつ使うと効果が分かりやすくなります。</aside>
+        </section>
+
+        <section id="basic">
+          <h2>2. 基本操作ガイド</h2>
+
+          <h3>2.1 画面の見方</h3>
+          <p>PC幅の画面では、主に左・中央・右の3エリアで構成されます。画面幅が小さいスマートフォンやタブレットでは、同じ機能が縦方向・シート形式に再配置されます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>エリア</th><th>主な役割</th><th>まず使う操作</th></tr></thead>
+              <tbody>
+                <tr><td>左：カテゴリ</td><td>大分類・子カテゴリを切り替えます。</td><td>作りたい要素のジャンルを選びます。</td></tr>
+                <tr><td>中央：ワークスペース</td><td>選択済みタイル、完成プロンプト、検索、単語一覧を扱います。</td><td>タイルの追加、編集、並び替え、コピーを行います。</td></tr>
+                <tr><td>右：ライブラリ</td><td>グループ、保存済みプロンプト、コピー履歴を再利用します。</td><td>過去の内容を追加・復元します。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：PC版の3ペイン構成</strong><code>images/02-desktop-layout.png</code></div></div><figcaption>左のカテゴリ、中央のワークスペース、右のライブラリが分かる画面を配置してください。</figcaption></figure>
+
+          <h3>2.2 ポジティブとネガティブを切り替える</h3>
+          <p>ワークスペース上部の <strong>「ポジティブ」</strong> と <strong>「ネガティブ」</strong> を切り替えて編集します。ポジティブには「描きたいもの」、ネガティブには「避けたいもの」を入れます。両者は別々に保存・編集されるため、ポジティブを組み立てた後にネガティブへ切り替えても内容は残ります。<sup><a href="#ref-1">[1]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>入力欄</th><th>目的</th><th>例</th></tr></thead><tbody><tr><td>ポジティブ</td><td>生成したい人物・服装・背景・画風・光などを指定します。</td><td><code>1girl, cinematic lighting, masterpiece</code></td></tr><tr><td>ネガティブ</td><td>生成結果から避けたい特徴を指定します。</td><td><code>lowres, blurry, text</code></td></tr></tbody></table></div>
+
+          <h3>2.3 カテゴリから単語を選ぶ</h3>
+          <p>左側のカテゴリで大分類を選び、続いて必要に応じて子カテゴリを選びます。中央下部の単語グリッドには、選択中のカテゴリに属するタイルが表示されます。各タイルには英語プロンプトと日本語ラベルが並ぶため、英語を覚えていなくても意味を確認できます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <ol class="steps">
+            <li><strong>ポジティブ</strong> または <strong>ネガティブ</strong> を選びます。</li>
+            <li>左側で大分類、続いて子カテゴリを選びます。</li>
+            <li>単語グリッドから、追加したいタイルの本文部分をクリックまたはタップします。</li>
+            <li>タイルはワークスペースへ追加され、プレビューに英語プロンプトが反映されます。</li>
+            <li>同じ単語をもう一度選ぶと、その単語は選択解除されます。すでに同じ英単語がある場合は、重複追加を防ぐ動作になります。</li>
+          </ol>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：カテゴリから単語を選ぶ</strong><code>images/03-category-selection.png</code></div></div><figcaption>カテゴリを選択し、単語グリッドからタイルを追加する流れが分かる画面を配置してください。</figcaption></figure>
+
+          <h3>2.4 日本語で単語を検索する</h3>
+          <p>中央の検索欄 <strong>「単語を検索…」</strong> に、知りたい意味を日本語で入力します。検索は英語プロンプトと日本語ラベルの両方を対象に行われます。そのため、英語タグを知らない場合でも、たとえば「映画」「光」「青」「笑顔」のような日本語から候補を探せます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <aside class="tip"><span class="callout-title">検索のコツ</span>具体的な単語が見つからないときは、より短い言葉にしてみてください。たとえば「映画のような光」ではなく「映画」や「光」、「夜の街」ではなく「夜」「街」のように分けて検索すると候補を確認しやすくなります。</aside>
+
+          <h3>2.5 タイルを並び替える・削除する</h3>
+          <p>ワークスペースに入れたタイルは、<strong>長押ししてドラッグ</strong>することで順番を変更できます。最終プロンプトはワークスペースの順序で出力されるため、関連する要素をまとめたい場合や、読みやすく整理したい場合に便利です。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-2">[2]</a></sup></p>
+          <p>削除は、ツールバーの削除モードをオンにしてタイル内の <strong>×</strong> を選ぶ方法が基本です。各タイルを開く編集画面から <strong>「削除」</strong> を選ぶこともできます。PCでは、ワークスペース上の通常タイルを右クリックして削除する操作にも対応しています。<sup><a href="#ref-1">[1]</a></sup></p>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：並び替えと削除</strong><code>images/04-reorder-delete.png</code></div></div><figcaption>ドラッグによる並び替えと、削除モードの×ボタンが分かる画面を配置してください。</figcaption></figure>
+
+          <h3>2.6 プロンプトを確認してコピーする</h3>
+          <p>選択済みタイルの下には、完成した英語プロンプトを表示するプレビューがあります。タイルは通常、カンマと半角スペースでつながれます。PCではプレビュー右側のコピーアイコン、モバイルではツールバーの <strong>「コピー」</strong> を使うと、現在のポジティブまたはネガティブのプロンプトをクリップボードへコピーできます。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-2">[2]</a></sup></p>
+          <aside class="note"><span class="callout-title">コピー前の確認</span>ポジティブとネガティブは別々にコピーします。PixAI側にもポジティブ用・ネガティブ用の欄がある場合は、それぞれ対応するPromptTileのタブを開いてコピーしてください。</aside>
+        </section>
+
+        <section id="pixai">
+          <h2>3. PixAI向けの応用機能</h2>
+
+          <h3>3.1 重み調整：特定の単語を強める・弱める</h3>
+          <p><strong>重み（Weight）</strong> は、特定の単語をどの程度強く扱うかを明示するための数値です。ワークスペース上の通常タイルをクリックまたはタップすると、タイルの調整画面が開きます。ここにある <strong>「強調度（Weight）」</strong> のスライダー、または増減ボタンで、<code>0.50</code> から <code>1.50</code> まで <code>0.05</code> 刻みで調整できます。<sup><a href="#ref-3">[3]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>重み</th><th>目的</th><th>出力例</th></tr></thead><tbody><tr><td><code>1.0</code></td><td>通常の強さです。PromptTileでは重み記法を付けずに出力します。</td><td><code>masterpiece</code></td></tr><tr><td><code>1.2</code></td><td>少し強めたいときに使います。</td><td><code>(masterpiece:1.2)</code></td></tr><tr><td><code>1.3</code>以上</td><td>かなり強く指定したいときに使います。まずは少しずつ上げてください。</td><td><code>(cinematic lighting:1.3)</code></td></tr><tr><td><code>0.8</code></td><td>出現を弱めたいときに使います。</td><td><code>(smile:0.8)</code></td></tr></tbody></table></div>
+          <p>たとえば、品質を少し強くしたい場合は <code>masterpiece</code> のタイルを開いて <code>1.20</code> にします。プレビューは <strong><code>(masterpiece:1.2)</code></strong> になります。数値を <code>1.0</code> に戻すと、括弧と数値は自動的に外れ、通常の <code>masterpiece</code> に戻ります。<sup><a href="#ref-2">[2]</a></sup> <sup><a href="#ref-3">[3]</a></sup></p>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：重み調整</strong><code>images/05-weight-adjustment.png</code></div></div><figcaption>強調度スライダーと、出力例が分かるタイル調整画面を配置してください。</figcaption></figure>
+          <aside class="tip"><span class="callout-title">使い方の目安</span>最初から多くのタイルを強くしすぎると、どの指定を優先させたいのか分かりにくくなります。まずは重要な要素を1～2個だけ <code>1.1</code>～<code>1.2</code> にして、生成結果を比較する方法がおすすめです。</aside>
+
+          <h3>3.2 トッピング機能：単語に装飾を加える</h3>
+          <p><strong>トッピング</strong> は、対象の単語に紐づいた品質・スタイル・色などの修飾候補を、日本語で選んで追加する機能です。トッピングに対応した単語タイルには、本文部分とは別に設定アイコンが表示されます。本文を選ぶと単語をそのまま追加し、<strong>設定アイコン</strong>を選ぶとトッピング選択画面を開けます。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-3">[3]</a></sup></p>
+          <p>トッピングの候補は、すべての単語で共通ではありません。単語やカテゴリに設定されている修飾グループだけが表示されます。たとえば色を受け取るテンプレート型の単語では、選んだ色が <code>{colorA}</code> や <code>{colorB}</code> の位置に埋め込まれ、選択内容を含む英語プロンプトが出力されます。前に置く修飾と後ろに付ける修飾も、設定された順序で自動的に組み立てられます。<sup><a href="#ref-2">[2]</a></sup> <sup><a href="#ref-3">[3]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>操作</th><th>結果</th></tr></thead><tbody><tr><td>タイル本文を選ぶ</td><td>装飾なしの単語をワークスペースへ追加します。</td></tr><tr><td>設定アイコンを選ぶ</td><td>その単語で利用できるトッピングを日本語で選択できます。</td></tr><tr><td>ワークスペース上のタイルを開く</td><td>重みとトッピングを後から調整できます。</td></tr><tr><td>各トッピングの「なし」を選ぶ</td><td>そのグループの装飾を解除できます。</td></tr></tbody></table></div>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：トッピング選択</strong><code>images/06-topping-selection.png</code></div></div><figcaption>単語タイルの設定アイコンと、日本語で選ぶトッピング候補を配置してください。</figcaption></figure>
+
+          <h3>3.3 BREAK構文：プロンプトを区切る</h3>
+          <p><strong>BREAK</strong> は、プロンプトの途中に区切りを置く特殊構文です。PromptTileでターゲット画像生成AIを <strong>「PixAI（BREAK対応）」</strong> にしている場合、ツールバーに <strong>「+ BREAK」</strong> が表示されます。追加したBREAKは通常のタイルと同じようにドラッグで移動でき、最終文字列では前後を半角スペースで区切って出力されます。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-2">[2]</a></sup> <sup><a href="#ref-4">[4]</a></sup></p>
+          <pre><code>1girl, cyberpunk city, cinematic lighting BREAK (masterpiece:1.2)</code></pre>
+          <p>上の例では、人物・背景・照明をひとまとまりにし、その後に品質指定を置いています。BREAKを使う目的は、長いプロンプトを意味のまとまりごとに整理することです。まずは「人物・外見」「背景・雰囲気」「品質・画風」のように、1か所だけ区切るところから試してください。</p>
+          <aside class="caution"><span class="callout-title">注意</span>BREAKの解釈は画像生成サービスやモデル設定によって異なる場合があります。PromptTileではPixAI向けにBREAKを追加できますが、生成結果の変化はPixAI側のモデル・設定にも左右されます。PixAI以外へ貼り付ける場合は、そのサービスでBREAKが使えるか確認してください。<sup><a href="#ref-4">[4]</a></sup></aside>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：BREAKの挿入</strong><code>images/07-break-syntax.png</code></div></div><figcaption>「+ BREAK」ボタンと、ワークスペースに挿入されたBREAKタイルを配置してください。</figcaption></figure>
+        </section>
+
+        <section id="advanced">
+          <h2>4. 高度な特殊構文</h2>
+          <p>高度な特殊構文は、主に <strong>「SD WebUI（A1111）」</strong> 向けの機能です。PromptTileの設定でターゲット画像生成AIをA1111に切り替えると、ANDと構文結合が使えるようになります。一方、PixAI向け設定ではBREAKを中心に使う設計です。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-4">[4]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>構文</th><th>出力形式</th><th>使い方の概要</th><th>PixAI向け設定での扱い</th></tr></thead><tbody><tr><td>BREAK</td><td><code>A BREAK B</code></td><td>プロンプトを区切ります。</td><td>利用できます。</td></tr><tr><td>AND</td><td><code>A AND B</code></td><td>複数の条件をANDで結びます。</td><td>通常は表示されません。</td></tr><tr><td>ステップ切り替え</td><td><code>[from:to:ratio]</code></td><td>生成途中で単語を切り替えるための構文です。</td><td>通常は表示されません。</td></tr><tr><td>交互構文</td><td><code>[word1|word2]</code></td><td>2語を交互に扱うための構文です。</td><td>通常は表示されません。</td></tr></tbody></table></div>
+          <p>A1111モードでは、ツールバーの <strong>構文結合</strong> からワークスペース内の通常タイルを2つ選びます。結合タイプを <strong>「ステップ切り替え」</strong> にすると <code>[from:to:ratio]</code>、<strong>「交互構文」</strong> にすると <code>[word1|word2]</code> が生成されます。<sup><a href="#ref-1">[1]</a></sup> <sup><a href="#ref-2">[2]</a></sup></p>
+          <pre><code>[day:night:0.5]
+[red dress|blue dress]</code></pre>
+          <p>ステップ切り替えでは、切り替えタイミングを <code>0%</code>～<code>100%</code> のスライダーで指定できます。PromptTileの画面では、通常は <code>30%</code>～<code>70%</code> 程度を使う案内になっています。PixAIを主に使う場合は、まずBREAKと重み調整を使い、これらの構文は必要になったときだけA1111モードで試すとよいでしょう。<sup><a href="#ref-1">[1]</a></sup></p>
+        </section>
+
+        <section id="utilities">
+          <h2>5. 便利な機能</h2>
+          <h3>5.1 コピー履歴から復元する</h3>
+          <p>PromptTileでは、プロンプトをコピーした時点で、ポジティブ・ネガティブの内容がコピー履歴へ保存されます。PCでは右側ライブラリの <strong>「コピー履歴」</strong>、モバイルではライブラリシートから履歴を開きます。履歴を選ぶと、内容を確認したうえで次のどちらかを選べます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>操作</th><th>内容</th></tr></thead><tbody><tr><td><strong>現在に追加</strong></td><td>今のワークスペースを残し、履歴の単語を追加します。重複した英単語は追加されません。</td></tr><tr><td><strong>置き換える</strong></td><td>現在のポジティブ・ネガティブを、履歴の内容で置き換えます。</td></tr></tbody></table></div>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：コピー履歴の復元</strong><code>images/08-copy-history.png</code></div></div><figcaption>コピー履歴と「現在に追加」「置き換える」の確認画面を配置してください。</figcaption></figure>
+
+          <h3>5.2 プロンプトを保存して再利用する</h3>
+          <p>ワークスペース上部の保存ボタンから、現在のポジティブ・ネガティブを名前付きで保存できます。保存した内容は、右側ライブラリの <strong>「保存済みプロンプト」</strong> に表示されます。ライブラリ内では、以下のように必要な部分だけを読み込めます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <div class="table-wrap"><table><thead><tr><th>ボタン</th><th>読み込む内容</th></tr></thead><tbody><tr><td><strong>+ポジ</strong></td><td>保存済みプロンプトのポジティブ部分を現在のポジティブへ追加します。</td></tr><tr><td><strong>+ネガ</strong></td><td>保存済みプロンプトのネガティブ部分を現在のネガティブへ追加します。</td></tr><tr><td><strong>一括</strong></td><td>ポジティブ・ネガティブの両方をまとめて読み込みます。</td></tr></tbody></table></div>
+
+          <h3>5.3 グループでパーツをまとめる</h3>
+          <p>複数のタイルをひとまとめにしたい場合は、<strong>新規グループ</strong> または複数選択モードを使います。グループには名前を付けられ、グループ内のタイルを編集したり、グループそのものをライブラリへ保存したりできます。<sup><a href="#ref-1">[1]</a></sup></p>
+          <p>グループ化は、毎回使う要素のセットに向いています。たとえば「人物の基本セット」「夜景背景セット」「品質セット」のようにまとめておくと、必要なときに一括で読み込めます。</p>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：グループ管理</strong><code>images/09-group-management.png</code></div></div><figcaption>グループの作成・編集・ライブラリ保存のいずれかが分かる画面を配置してください。</figcaption></figure>
+
+          <h3>5.4 NSFW表示を切り替える</h3>
+          <p>成人向け（NSFW）カテゴリ・単語を表示する機能は、初期状態では有効ではありません。利用する場合は、メニューから <strong>「設定」</strong> を開き、<strong>「データ管理と制限」</strong> 内の <strong>「成人向け（NSFW）コンテンツ」</strong> をオンにして、確認画面で有効化します。<sup><a href="#ref-1">[1]</a></sup></p>
+          <p>有効化後は、メイン画面で通常表示と成人向け表示を切り替えられます。通常表示では通常用データのみ、成人向け表示では成人向けデータのみが表示されるため、カテゴリや検索結果が混在しない設計です。年齢制限のあるコンテンツを扱う場合は、利用するサービスの規約と法律を確認してください。<sup><a href="#ref-1">[1]</a></sup></p>
+
+          <h3>5.5 そのほかの時短機能</h3>
+          <div class="table-wrap"><table><thead><tr><th>機能</th><th>使いどころ</th></tr></thead><tbody><tr><td>元に戻す／やり直す</td><td>追加・削除・読み込みの直後に、ひとつ前の状態へ戻したいときに使います。</td></tr><tr><td>クリップボードからインポート</td><td>すでに持っているカンマ区切りの英語プロンプトを取り込み、タイルとして編集したいときに使います。BREAK・ANDも単独語として認識されます。<sup><a href="#ref-1">[1]</a></sup></td></tr><tr><td>お気に入り</td><td>単語タイルを長押しすると、お気に入りの切り替えができます。お気に入りはカテゴリ・検索結果の上位に表示されます。<sup><a href="#ref-1">[1]</a></sup></td></tr><tr><td>単語の差し替え</td><td>ワークスペースのタイルを開き、同じカテゴリ内の別単語へ差し替えられます。</td></tr><tr><td>バックアップ／復元</td><td>PC版の設定画面から、標準辞書またはユーザー辞書をJSONで書き出し・読み込みできます。<sup><a href="#ref-1">[1]</a></sup></td></tr></tbody></table></div>
+        </section>
+
+        <section id="example">
+          <h2>6. 実践例</h2>
+          <p>ここでは、<strong>映画のワンシーンのような、夜のサイバーパンク都市を背景にした人物イラスト</strong>を作るための考え方を例にします。実際に表示される単語や日本語ラベルは、選択中の辞書によって異なるため、近い意味のタイルを選んでください。</p>
+          <h3>6.1 ポジティブを組み立てる</h3>
+          <ol class="steps"><li>ポジティブタブで、人物カテゴリから <code>1girl</code> のような主役タイルを選びます。</li><li>背景・雰囲気に関するカテゴリまたは日本語検索から、都市・夜・サイバーパンクに近いタイルを追加します。</li><li>検索欄に「映画」または「光」と入力し、<code>cinematic lighting</code> に近い照明タイルを追加します。</li><li>品質に関する <code>masterpiece</code> を追加し、タイルを開いて重みを <code>1.2</code> にします。</li><li>PixAIモードなら、必要に応じて人物・背景の後にBREAKを置き、品質指定を後ろへまとめます。</li></ol>
+          <pre><code>1girl, cyberpunk city, cinematic lighting BREAK (masterpiece:1.2)</code></pre>
+          <h3>6.2 ネガティブを組み立てる</h3>
+          <p>ネガティブタブへ切り替え、「低解像度」「ぼやけ」「文字」など、避けたい要素を日本語検索で探して追加します。</p>
+          <pre><code>lowres, blurry, text</code></pre>
+          <h3>6.3 コピーしてPixAIへ貼り付ける</h3>
+          <p>ポジティブタブでコピーし、PixAIのポジティブプロンプト欄へ貼り付けます。次にネガティブタブへ切り替え、ネガティブプロンプト欄へ貼り付けます。生成後は、一度に多くの要素を変更せず、たとえば<strong>重みだけを <code>1.2</code> から <code>1.1</code> に変える</strong>、または<strong>照明タイルだけを差し替える</strong>というように、1回に1～2点ずつ試すと結果の違いを把握しやすくなります。</p>
+          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：PixAIへの貼り付け</strong><code>images/10-pixai-paste.png</code></div></div><figcaption>PromptTileのコピー結果をPixAIの入力欄へ貼り付けるイメージを配置してください。</figcaption></figure>
+        </section>
+
+        <section id="troubleshooting">
+          <h2>7. 困ったとき</h2>
+          <div class="table-wrap"><table><thead><tr><th>状況</th><th>確認すること</th></tr></thead><tbody><tr><td>日本語で検索しても見つからない</td><td>短い言葉にして再検索してください。現在の辞書が「標準辞書」か「ユーザー辞書」かも設定で確認します。</td></tr><tr><td>単語を追加したのに見当たらない</td><td>ポジティブ／ネガティブのどちらを編集中か確認してください。同じ単語は重複追加されません。</td></tr><tr><td>トッピングの設定アイコンがない</td><td>その単語にはトッピンググループが割り当てられていない可能性があります。本文を選んで通常追加してください。</td></tr><tr><td>BREAKボタンが表示されない</td><td>設定の「ターゲット画像生成AI」が「標準（特殊構文なし）」になっていないか確認し、PixAI（BREAK対応）を選びます。<sup><a href="#ref-4">[4]</a></sup></td></tr><tr><td>コピーできない</td><td>ワークスペースに少なくとも1つ単語を追加してからコピーしてください。ブラウザのクリップボード権限も確認します。</td></tr><tr><td>成人向けの候補が表示されない</td><td>設定でNSFW表示を有効にし、メイン画面で成人向け表示へ切り替えてください。<sup><a href="#ref-1">[1]</a></sup></td></tr></tbody></table></div>
+        </section>
+
+        <section id="formats">
+          <h2>付録：よく使う出力形式</h2>
+          <div class="table-wrap"><table><thead><tr><th>目的</th><th>PromptTileでの操作</th><th>生成される文字列の例</th></tr></thead><tbody><tr><td>通常の単語を追加</td><td>単語タイルを選択</td><td><code>cinematic lighting</code></td></tr><tr><td>単語を強調</td><td>タイルのWeightを <code>1.2</code> に設定</td><td><code>(masterpiece:1.2)</code></td></tr><tr><td>単語を弱める</td><td>タイルのWeightを <code>0.8</code> に設定</td><td><code>(smile:0.8)</code></td></tr><tr><td>区切りを追加</td><td><code>+ BREAK</code> を追加</td><td><code>A BREAK B</code></td></tr><tr><td>ステップ切り替え</td><td>A1111モードで2タイルを構文結合</td><td><code>[day:night:0.5]</code></td></tr><tr><td>交互構文</td><td>A1111モードで2タイルを構文結合</td><td><code>[red dress|blue dress]</code></td></tr></tbody></table></div>
+          <aside class="intro-quote">良いプロンプトは、難しい英語を一度にたくさん書くことではなく、生成したいイメージを「人物」「見た目」「背景」「光」「品質」のように小さな要素へ分け、結果を見ながら少しずつ調整することから始まります。PromptTileでは、その試行錯誤を日本語のタイル操作として行えます。</aside>
+        </section>
+
+        <section id="sources">
+          <h2>参照情報</h2>
+          <ol class="references">
+            <li id="ref-1"><a href="https://github.com/yotsudev-svg/PromptTileWeb">PromptTileWeb ソースリポジトリ</a></li>
+            <li id="ref-2"><a href="https://github.com/yotsudev-svg/PromptTileWeb/blob/main/shared/src/commonMain/kotlin/dev/github/yotsudev/prompttileweb/util/PromptFormatter.kt">PromptTile プロンプト整形仕様</a></li>
+            <li id="ref-3"><a href="https://github.com/yotsudev-svg/PromptTileWeb/blob/main/shared/src/commonMain/kotlin/dev/github/yotsudev/prompttileweb/ui/main/PromptAdjustSheet.kt">PromptTile 重み・トッピング調整UI</a></li>
+            <li id="ref-4"><a href="https://github.com/yotsudev-svg/PromptTileWeb/blob/main/shared/src/commonMain/kotlin/dev/github/yotsudev/prompttileweb/ui/settings/SettingsScreen.kt">PromptTile 生成先モード・設定UI</a></li>
+          </ol>
+        </section>
+      </article>
+    </main>
+
+    <nav class="toc" aria-label="目次">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#about">PromptTileとは？</a></li>
+        <li><a href="#basic">基本操作ガイド</a></li>
+        <li><a href="#pixai">PixAI向けの応用機能</a></li>
+        <li><a href="#advanced">高度な特殊構文</a></li>
+        <li><a href="#utilities">便利な機能</a></li>
+        <li><a href="#example">実践例</a></li>
+        <li><a href="#troubleshooting">困ったとき</a></li>
+        <li><a href="#formats">付録：出力形式</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <footer class="footer">PromptTile 公式ドキュメント・利用マニュアル</footer>
+</body>
+</html>
