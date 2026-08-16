@@ -268,7 +268,6 @@
           <pre><code>1girl, cyberpunk city, cinematic lighting BREAK (masterpiece:1.2)</code></pre>
           <p>上の例では、人物・背景・照明をひとまとまりにし、その後に品質指定を置いています。BREAKを使う目的は、長いプロンプトを意味のまとまりごとに整理することです。まずは「人物・外見」「背景・雰囲気」「品質・画風」のように、1か所だけ区切るところから試してください。</p>
           <aside class="caution"><span class="callout-title">注意</span>BREAKの解釈は画像生成サービスやモデル設定によって異なる場合があります。PromptTileではPixAI向けにBREAKを追加できますが、生成結果の変化はPixAI側のモデル・設定にも左右されます。PixAI以外へ貼り付ける場合は、そのサービスでBREAKが使えるか確認してください。</aside>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：BREAKの挿入</strong><code>images/07-break-syntax.png</code></div></div><figcaption>「+ BREAK」ボタンと、ワークスペースに挿入されたBREAKタイルを配置してください。</figcaption></figure>
         </section>
 
         <section id="advanced">
@@ -286,7 +285,6 @@
           <h3>5.1 コピー履歴から復元する</h3>
           <p>PromptTileでは、プロンプトをコピーした時点で、ポジティブ・ネガティブの内容がコピー履歴へ保存されます。PCでは右側ライブラリの <strong>「コピー履歴」</strong>、モバイルではライブラリシートから履歴を開きます。履歴を選ぶと、内容を確認したうえで次のどちらかを選べます。</p>
           <div class="table-wrap"><table><thead><tr><th>操作</th><th>内容</th></tr></thead><tbody><tr><td><strong>現在に追加</strong></td><td>今のワークスペースを残し、履歴の単語を追加します。重複した英単語は追加されません。</td></tr><tr><td><strong>置き換える</strong></td><td>現在のポジティブ・ネガティブを、履歴の内容で置き換えます。</td></tr></tbody></table></div>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：コピー履歴の復元</strong><code>images/08-copy-history.png</code></div></div><figcaption>コピー履歴と「現在に追加」「置き換える」の確認画面を配置してください。</figcaption></figure>
 
           <h3>5.2 プロンプトを保存して再利用する</h3>
           <p>ワークスペース上部の保存ボタンから、現在のポジティブ・ネガティブを名前付きで保存できます。保存した内容は、右側ライブラリの <strong>「保存済みプロンプト」</strong> に表示されます。ライブラリ内では、以下のように必要な部分だけを読み込めます。</p>
@@ -295,7 +293,6 @@
           <h3>5.3 グループでパーツをまとめる</h3>
           <p>複数のタイルをひとまとめにしたい場合は、<strong>新規グループ</strong> または複数選択モードを使います。グループには名前を付けられ、グループ内のタイルを編集したり、グループそのものをライブラリへ保存したりできます。</p>
           <p>グループ化は、毎回使う要素のセットに向いています。たとえば「人物の基本セット」「夜景背景セット」「品質セット」のようにまとめておくと、必要なときに一括で読み込めます。</p>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：グループ管理</strong><code>images/09-group-management.png</code></div></div><figcaption>グループの作成・編集・ライブラリ保存のいずれかが分かる画面を配置してください。</figcaption></figure>
 
           <h3>5.4 NSFW表示を切り替える</h3>
           <p>成人向け（NSFW）カテゴリ・単語を表示する機能は、初期状態では有効ではありません。利用する場合は、メニューから <strong>「設定」</strong> を開き、<strong>「データ管理と制限」</strong> 内の <strong>「成人向け（NSFW）コンテンツ」</strong> をオンにして、確認画面で有効化します。</p>
@@ -316,7 +313,6 @@
           <pre><code>lowres, blurry, text</code></pre>
           <h3>6.3 コピーしてPixAIへ貼り付ける</h3>
           <p>ポジティブタブでコピーし、PixAIのポジティブプロンプト欄へ貼り付けます。次にネガティブタブへ切り替え、ネガティブプロンプト欄へ貼り付けます。生成後は、一度に多くの要素を変更せず、たとえば<strong>重みだけを <code>1.2</code> から <code>1.1</code> に変える</strong>、または<strong>照明タイルだけを差し替える</strong>というように、1回に1～2点ずつ試すと結果の違いを把握しやすくなります。</p>
-          <figure class="screenshot-slot"><div class="screenshot-placeholder"><div><strong>スクリーンショット挿入位置：PixAIへの貼り付け</strong><code>images/10-pixai-paste.png</code></div></div><figcaption>PromptTileのコピー結果をPixAIの入力欄へ貼り付けるイメージを配置してください。</figcaption></figure>
         </section>
 
         <section id="troubleshooting">
